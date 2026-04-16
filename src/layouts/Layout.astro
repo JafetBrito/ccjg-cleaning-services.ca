@@ -1,0 +1,21 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>CCJG Cleaning Services | Premium Commercial Cleaning</title>
+    <script>
+  // Detecta si el navegador está en español y no está ya en la página /es/
+  const browserLang = navigator.language || navigator.userLanguage;
+  if (browserLang.startsWith('es') && !window.location.pathname.startsWith('/es')) {
+    window.location.replace('/es'); // Lo manda a la versión en español al instante
+  }
+</script>
+  </head>
+  <body class="bg-ccjg-surface text-ccjg-dark font-sans selection:bg-ccjg-cyan selection:text-white">
+    <slot />
+  </body>
+</html>

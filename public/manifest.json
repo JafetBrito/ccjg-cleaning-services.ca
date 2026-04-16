@@ -1,0 +1,27 @@
+export const languages = {
+  en: 'English',
+  es: 'Español',
+};
+
+export const defaultLang = 'en';
+
+export const ui = {
+  en: {
+    'nav.services': 'Services',
+    'hero.badge': 'Ontario\'s Commercial Standard',
+    'hero.title1': 'ABSOLUTE',
+    'hero.title2': 'CLARITY',
+    'hero.desc': 'Since 2017, we elevate hygiene standards in commercial, industrial, and retail environments.',
+    'hero.btn1': 'Request Audit',
+    'hero.btn2': 'Our Philosophy',
+  },
+  es: {
+    'nav.services': 'Servicios',
+    'hero.badge': 'Estándar Comercial de Ontario',
+    'hero.title1': 'CLARIDAD',
+    'hero.title2': 'ABSOLUTA',
+    'hero.desc': 'Desde 2017, elevamos el estándar de higiene en entornos comerciales, oficinas e instalaciones industriales.',
+    'hero.btn1': 'Solicitar Auditoría',
+    'hero.btn2': 'Nuestra Filosofía',
+  },
+} as const;

@@ -1,0 +1,188 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// 1. Botones de categorías
+const categories = [
+  { id: "all", label: "All Categories", emoji: "🌟" },
+  { id: "commercial", label: t('gallery.p1.title'), emoji: "🪞" }, 
+  { id: "common", label: t('gallery.p2.title'), emoji: "🏢" },   
+  { id: "warehouse", label: t('gallery.p3.title'), emoji: "🏭" },  
+  { id: "exterior", label: t('gallery.p4.title'), emoji: "🌊" }    
+];
+
+// 2. Galería de Imágenes
+const galleryImages = [
+  { src: "/images/gallery/servicios-comerciales-ccjg.jpg", category: "commercial", alt: "Commercial Treatment" },
+  { src: "/images/gallery/servicios-comerciales-ccjg.jpg", category: "commercial", alt: "Floor Stripping" },
+  { src: "/images/gallery/2.png", category: "common", alt: "Common Area Janitorial" },
+  { src: "/images/gallery/2.png", category: "common", alt: "Office Cleaning" },
+  { src: "/images/gallery/3.jpg", category: "warehouse", alt: "Industrial Concrete Polishing" },
+  { src: "/images/gallery/3.jpg", category: "warehouse", alt: "Warehouse Floor" },
+  { src: "/images/gallery/23.png", category: "exterior", alt: "Power Washing Service" },
+  { src: "/images/gallery/23.png", category: "exterior", alt: "Exterior Cleaning" }
+];
+---
+
+<section id="galeria" class="relative py-20 bg-[#010308] border-t border-white/5">
+  <div class="container mx-auto px-6 max-w-7xl relative z-10">
+    
+    <div class="flex flex-col md:flex-row items-end justify-between mb-8 gap-6">
+      <div class="max-w-2xl">
+        <span class="inline-block px-4 py-1.5 border border-ccjg-cyan/30 rounded-full bg-ccjg-dark/20 text-ccjg-cyan font-bold tracking-[0.3em] uppercase text-[10px] mb-6">
+          {t('gallery.badge')}
+        </span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[0.95] uppercase">
+          {t('gallery.title1')} <br/>
+          <span class="text-gray-500">{t('gallery.title2')}</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center md:justify-start py-4 md:py-8 flex-wrap gap-2 md:gap-3">
+      {categories.map((cat) => (
+        <button 
+          type="button" 
+          data-filter={cat.id}
+          class="filter-btn text-gray-400 border border-white/10 hover:border-ccjg-cyan hover:text-white bg-[#030712] focus:ring-4 focus:outline-none focus:ring-ccjg-cyan/20 rounded-xl text-xs md:text-sm font-black uppercase tracking-wider px-5 py-2.5 text-center transition-all duration-300"
+        >
+          <span class="mr-2 text-base" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;">{cat.emoji}</span> 
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid">
+      {galleryImages.map((img) => (
+        <div class="gallery-item transition-all duration-500 ease-in-out" data-category={img.category}>
+          <div class="relative group cursor-pointer w-full h-full rounded-xl overflow-hidden shadow-lg border border-white/5 hover:border-ccjg-cyan/50 transition-all duration-300" onclick={`openSingleModal('${img.src}')`}>
+            
+            <img 
+              class="h-full w-full aspect-square object-cover group-hover:scale-[1.05] transition-all duration-500" 
+              src={img.src} 
+              alt={img.alt}
+              loading="lazy"
+              onerror="this.src='https://via.placeholder.com/600x600?text=Image+Not+Found'"
+            />
+            
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+              <div class="bg-ccjg-cyan/20 p-3 rounded-full border border-ccjg-cyan/50 text-white transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <div id="single-image-modal" class="fixed inset-0 w-screen h-[100dvh] z-[9999] bg-[#010308]/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
+    
+    <button id="close-single-modal" class="absolute top-4 right-4 md:top-8 md:right-8 z-[10000] bg-[#030712]/80 border-2 border-white/20 hover:border-ccjg-cyan text-white hover:text-ccjg-cyan p-3 md:p-4 rounded-full transition-all cursor-pointer shadow-xl group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="w-full h-full flex items-center justify-center p-4 md:p-12 cursor-zoom-out" id="modal-backdrop-area">
+      <img id="single-modal-img" src="" alt="Zoom" class="max-h-[90vh] max-w-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-lg transform scale-95 opacity-0 transition-all duration-300 cursor-default" />
+    </div>
+    
+  </div>
+</section>
+
+<script is:inline>
+  const singleModal = document.getElementById('single-image-modal');
+  const singleImg = document.getElementById('single-modal-img');
+  const closeSingleBtn = document.getElementById('close-single-modal');
+  const backdropArea = document.getElementById('modal-backdrop-area');
+
+  function openSingleModal(src) {
+    if(!singleModal || !singleImg) return;
+    
+    singleImg.src = src;
+    
+    singleModal.classList.remove('pointer-events-none', 'opacity-0');
+    document.body.style.overflow = 'hidden'; 
+
+    setTimeout(() => {
+      singleImg.classList.remove('scale-95', 'opacity-0');
+      singleImg.classList.add('scale-100', 'opacity-100');
+    }, 50);
+  }
+
+  function closeSingleModal() {
+    if(!singleModal || !singleImg) return;
+
+    singleImg.classList.remove('scale-100', 'opacity-100');
+    singleImg.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+      singleModal.classList.add('pointer-events-none', 'opacity-0');
+      document.body.style.overflow = ''; 
+      singleImg.src = ''; 
+    }, 300);
+  }
+
+  if(closeSingleBtn) closeSingleBtn.addEventListener('click', closeSingleModal);
+  
+  if(backdropArea) {
+    backdropArea.addEventListener('click', (e) => {
+      if (e.target === backdropArea) closeSingleModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && singleModal && !singleModal.classList.contains('opacity-0')) {
+      closeSingleModal();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        
+        filterButtons.forEach(btn => {
+          btn.classList.remove('border-ccjg-cyan', 'text-white', 'bg-ccjg-cyan/10');
+          btn.classList.add('border-white/10', 'text-gray-400', 'bg-[#030712]');
+        });
+
+        button.classList.remove('border-white/10', 'text-gray-400', 'bg-[#030712]');
+        button.classList.add('border-ccjg-cyan', 'text-white', 'bg-ccjg-cyan/10');
+
+        const filterValue = button.getAttribute('data-filter');
+
+        galleryItems.forEach(item => {
+          const itemCategory = item.getAttribute('data-category');
+          
+          if (filterValue === 'all' || filterValue === itemCategory) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            }, 50);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    if (filterButtons.length > 0) {
+      filterButtons[0].click();
+    }
+  });
+</script>

@@ -1,0 +1,40 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const features = [
+  { emoji: "🛡️", text: t('trust.insured') },
+  { emoji: "🏅", text: t('trust.staff') },
+  { emoji: "🌱", text: t('trust.eco') },
+  { emoji: "⏱️", text: t('trust.availability') }
+];
+---
+
+<section class="bg-[#030712] relative z-20 pt-8 pb-0 md:pt-12 md:pb-2 -mt-1">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    
+    <div class="bg-[#0a1122] border border-white/5 rounded-2xl md:rounded-full p-2 md:p-0">
+      
+      <div class="grid grid-cols-2 md:flex md:flex-row md:justify-between divide-x-0 md:divide-x divide-white/5 gap-y-4 md:gap-y-0 py-4 md:py-0">
+        
+        {features.map((f) => (
+          <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 px-2 md:px-8 md:py-4 w-full group">
+            
+            <span class="text-xl md:text-2xl drop-shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;">
+              {f.emoji}
+            </span>
+            
+            <p class="text-gray-300 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] text-center md:text-left transition-colors duration-300 group-hover:text-ccjg-cyan">
+              {f.text}
+            </p>
+            
+          </div>
+        ))}
+        
+      </div>
+    </div>
+    
+  </div>
+</section>

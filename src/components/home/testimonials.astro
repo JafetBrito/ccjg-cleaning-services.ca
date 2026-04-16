@@ -1,0 +1,117 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const testimonials = [
+  {
+    quote: t('test.1.quote'),
+    author: t('test.1.author'),
+    sector: t('test.1.sector'),
+    highlight: t('test.1.tag')
+  },
+  {
+    quote: t('test.2.quote'),
+    author: t('test.2.author'),
+    sector: t('test.2.sector'),
+    highlight: t('test.2.tag')
+  },
+  {
+    quote: t('test.3.quote'),
+    author: t('test.3.author'),
+    sector: t('test.3.sector'),
+    highlight: t('test.3.tag')
+  }
+];
+---
+
+<section id="testimonios" class="relative py-24 bg-[#030712] overflow-hidden">
+  
+  <div class="absolute top-1/2 right-0 w-[400px] h-[400px] bg-ccjg-cyan/5 rounded-full blur-[120px] pointer-events-none translate-x-1/2"></div>
+
+  <div class="container mx-auto px-6 max-w-7xl relative z-10">
+    
+    <div class="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+      <div class="max-w-2xl">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 border border-ccjg-cyan/30 rounded-full bg-ccjg-dark/40 backdrop-blur-md text-ccjg-cyan font-bold tracking-[0.3em] uppercase text-[10px] mb-6 shadow-[0_0_15px_rgba(0,180,216,0.15)]">
+           <span class="w-1.5 h-1.5 rounded-full bg-ccjg-cyan animate-pulse"></span>
+          {t('test.badge')}
+        </span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-none crisp-shadow uppercase">
+          {t('test.title1')} <br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">{t('test.title2')}</span>
+        </h2>
+      </div>
+      <div class="hidden md:block">
+         <div class="flex items-center gap-2 text-ccjg-cyan font-mono text-sm tracking-widest uppercase">
+           <span class="w-12 h-[1px] bg-ccjg-cyan"></span>
+           {t('test.proven')}
+         </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonials.map((test) => (
+        <div class="group relative p-10 bg-[#060D1A]/60 backdrop-blur-md border border-white/5 rounded-3xl hover:border-ccjg-cyan/30 hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between shadow-lg hover:shadow-[0_15px_30px_rgba(0,0,0,0.4)]">
+          
+          <div class="absolute top-6 right-8 text-white/5 group-hover:text-ccjg-cyan/10 transition-colors duration-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+          </div>
+
+          <div class="relative z-10">
+            <div class="mb-6 flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map(() => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-ccjg-cyan shadow-cyan-filter"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            
+            <p class="text-gray-300 text-lg font-light leading-relaxed mb-8 italic relative">
+               <span class="absolute -left-4 -top-2 text-ccjg-cyan/30 text-2xl">"</span>
+              {test.quote}
+               <span class="absolute -right-2 -bottom-2 text-ccjg-cyan/30 text-2xl">"</span>
+            </p>
+          </div>
+
+          <div class="relative z-10 pt-6 border-t border-white/10">
+            <p class="text-white font-bold tracking-tight uppercase text-sm mb-1">{test.author}</p>
+            <p class="text-ccjg-cyan/60 font-mono text-[10px] uppercase tracking-[0.2em]">{test.sector}</p>
+          </div>
+          
+          <div class="absolute top-0 right-10 translate-y-[-50%] px-3 py-1 bg-gradient-to-r from-ccjg-cyan to-blue-500 text-white text-[9px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 group-hover:translate-y-[-70%] transition-all duration-300 shadow-lg shadow-ccjg-cyan/20">
+            {test.highlight}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-24 pt-12 border-t border-white/5 flex flex-wrap justify-center items-center gap-8 md:gap-16 lg:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+       <div class="flex items-center gap-3 group cursor-default">
+           <span class="text-2xl group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-300" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;">🛍️</span>
+           <span class="text-white font-black tracking-widest text-lg md:text-xl italic group-hover:text-ccjg-cyan transition-colors duration-300">RETAIL</span>
+       </div>
+       <div class="flex items-center gap-3 group cursor-default">
+           <span class="text-2xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;">⛏️</span>
+           <span class="text-white font-black tracking-widest text-lg md:text-xl italic group-hover:text-ccjg-cyan transition-colors duration-300">MINING</span>
+       </div>
+       <div class="flex items-center gap-3 group cursor-default">
+           <span class="text-2xl group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-300" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;">🏢</span>
+           <span class="text-white font-black tracking-widest text-lg md:text-xl italic group-hover:text-ccjg-cyan transition-colors duration-300">OFFICES</span>
+       </div>
+       <div class="flex items-center gap-3 group cursor-default">
+           <span class="text-2xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;">🏭</span>
+           <span class="text-white font-black tracking-widest text-lg md:text-xl italic group-hover:text-ccjg-cyan transition-colors duration-300">INDUSTRIAL</span>
+       </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .crisp-shadow {
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .shadow-cyan-filter {
+    filter: drop-shadow(0 0 5px rgba(0, 180, 216, 0.4));
+  }
+</style>

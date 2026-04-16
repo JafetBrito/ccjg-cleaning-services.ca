@@ -1,0 +1,177 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const services = [
+  {
+    id: "stripping",
+    title: t('services.stripping.title'),
+    desc: t('services.stripping.desc'),
+    emoji1: "🧪",
+    emoji2: "✨",
+    colSpan: "md:col-span-2",
+    glow: "group-hover:shadow-ccjg-cyan/20"
+  },
+  {
+    id: "buffing",
+    title: t('services.buffing.title'),
+    desc: t('services.buffing.desc'),
+    emoji1: "⚙️",
+    emoji2: "✨",
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-ccjg-cyan/10"
+  },
+  {
+    id: "janitorial",
+    title: t('services.janitorial.title'),
+    desc: t('services.janitorial.desc'),
+    emoji1: "🏢",
+    emoji2: "🧹",
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-emerald-500/10"
+  },
+  {
+    id: "ceramic",
+    title: t('services.ceramic.title'),
+    desc: t('services.ceramic.desc'),
+    emoji1: "🧱",
+    emoji2: "🧼", 
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-orange-500/10"
+  },
+  {
+    id: "dusting",
+    title: t('services.dusting.title'),
+    desc: t('services.dusting.desc'),
+    emoji1: "🗼", 
+    emoji2: "🌬️", 
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-sky-400/10"
+  },
+  {
+    id: "concrete",
+    title: t('services.concrete.title'),
+    desc: t('services.concrete.desc'),
+    emoji1: "🚧",
+    emoji2: "✨",
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-ccjg-cyan/10"
+  },
+  {
+    id: "power",
+    title: t('services.power.title'),
+    desc: t('services.power.desc'),
+    emoji1: "🔋", 
+    emoji2: "🧼", 
+    colSpan: "md:col-span-1",
+    glow: "group-hover:shadow-blue-600/10"
+  }
+];
+---
+
+<section id="servicios" class="relative py-24 bg-[#030712] overflow-hidden">
+  <div class="container mx-auto px-6 max-w-7xl relative z-10">
+    
+    <div class="mb-16">
+      <span class="text-ccjg-cyan font-mono text-xs uppercase tracking-[0.4em] mb-4 block">
+        {t('services.badge')}
+      </span>
+      <h2 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none uppercase">
+        {t('services.title1')} <br/>
+        <span class="text-gray-600">{t('services.title2')}</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {services.map((s) => (
+        <div class={`service-card group relative p-10 rounded-[2.5rem] bg-[#060d1a] border border-white/5 transition-all duration-500 hover:border-ccjg-cyan/40 hover:-translate-y-1 shadow-xl cursor-pointer ${s.glow} ${s.colSpan}`}>
+          
+          <div class="relative z-10 h-full flex flex-col items-start pointer-events-none">
+            
+            <div class="relative w-20 h-20 mb-8 bg-white/[0.03] rounded-3xl flex items-center justify-center overflow-hidden border border-white/10 group-hover:border-ccjg-cyan/50 transition-all duration-500 group-hover:bg-ccjg-cyan/10">
+              
+              <span class="emoji-base absolute text-5xl transition-all duration-500 ease-in-out" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;">
+                {s.emoji1}
+              </span>
+              
+              <span class="emoji-hover absolute text-5xl transition-all duration-500 ease-in-out opacity-0 scale-0 -rotate-[180deg]" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;">
+                {s.emoji2}
+              </span>
+              
+            </div>
+            
+            <h3 class="text-2xl font-black text-white mb-4 tracking-tight group-hover:text-ccjg-cyan transition-colors uppercase">
+              {s.title}
+            </h3>
+            
+            <p class="text-gray-400 text-sm md:text-base leading-relaxed font-light">
+              {s.desc}
+            </p>
+          </div>
+        </div>
+      ))}
+
+      <div class="relative p-10 rounded-[2.5rem] bg-ccjg-cyan flex flex-col justify-between items-start group overflow-hidden md:col-span-1 cursor-pointer">
+        <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div class="text-5xl group-hover:animate-pulse transition-all">📞</div>
+        <div>
+          <h3 class="text-[#030712] font-black text-2xl mb-6 leading-tight relative z-10">
+            {t('services.custom.title')}
+          </h3>
+          <a href="tel:+17052886527" class="inline-flex items-center px-8 py-4 bg-[#030712] text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white hover:text-black transition-all shadow-2xl relative z-10">
+            {t('services.custom.btn')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Ejecutamos esto cuando el DOM esté listo (buena práctica en Astro)
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.service-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('click', function() {
+        // Detectamos si el usuario está en un dispositivo que NO tiene ratón (móvil/tablet)
+        if (window.matchMedia("(hover: none)").matches) {
+          // Hacemos el toggle (prende/apaga) de una clase especial
+          this.classList.toggle('is-flipped');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  section {
+    contain: layout paint;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 💻 COMPORTAMIENTO EN ESCRITORIO (Solo si hay ratón) */
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover .emoji-base {
+      transform: scale(0) rotate(180deg);
+      opacity: 0;
+    }
+    .service-card:hover .emoji-hover {
+      transform: scale(1.05) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  /* 📱 COMPORTAMIENTO EN MÓVIL (Activado infinitamente por el clic) */
+  .service-card.is-flipped .emoji-base {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+  }
+  .service-card.is-flipped .emoji-hover {
+    transform: scale(1.05) rotate(0deg);
+    opacity: 1;
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const currentYear = new Date().getFullYear();
+const baseUrl = lang === 'en' ? '' : `/${lang}`;
+---
+
+<footer class="bg-[#010308] border-t border-white/5 pt-16 pb-8 overflow-hidden relative">
+  <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-ccjg-cyan/20 to-transparent"></div>
+
+  <div class="container mx-auto px-6 max-w-7xl relative z-10">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start gap-10 mb-16">
+      
+      <div class="max-w-sm">
+        <a href={`${baseUrl}/`} class="text-white font-black text-3xl tracking-widest drop-shadow-md mb-4 block">
+          CCJG<span class="text-ccjg-cyan">.</span>
+        </a>
+        <p class="text-gray-500 text-sm font-light leading-relaxed">
+          {t('footer.desc')}
+        </p>
+      </div>
+      
+      <div class="flex gap-8 md:gap-16">
+        <div class="flex flex-col gap-4">
+          <span class="text-white font-bold uppercase tracking-widest text-[10px] mb-2 opacity-50">
+            {t('footer.company')}
+          </span>
+          <a href="#filosofia" class="text-gray-400 hover:text-ccjg-cyan text-xs font-medium uppercase tracking-wider transition-colors">
+            {t('nav.philosophy')}
+          </a>
+          <a href="#impacto" class="text-gray-400 hover:text-ccjg-cyan text-xs font-medium uppercase tracking-wider transition-colors">
+            {t('impact.bg')}
+          </a>
+        </div>
+        <div class="flex flex-col gap-4">
+          <span class="text-white font-bold uppercase tracking-widest text-[10px] mb-2 opacity-50">
+            {t('footer.explore')}
+          </span>
+          <a href="#servicios" class="text-gray-400 hover:text-ccjg-cyan text-xs font-medium uppercase tracking-wider transition-colors">
+            {t('nav.services')}
+          </a>
+          <a href="#galeria" class="text-gray-400 hover:text-ccjg-cyan text-xs font-medium uppercase tracking-wider transition-colors">
+            {t('footer.projects')}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-600 text-[10px] font-mono tracking-widest uppercase text-center md:text-left">
+        &copy; {currentYear} CCJG Cleaning Services. {t('footer.rights')}
+      </p>
+      
+      <p class="text-gray-700 text-[10px] font-mono tracking-widest uppercase flex items-center gap-2">
+        {t('footer.engineered')} 
+        <a href="https://jafetbrito.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-ccjg-cyan transition-colors font-bold flex items-center gap-1 group">
+          Rubic's Digital Solutions
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </p>
+    </div>
+
+  </div>
+</footer>
