@@ -1,7 +1,32 @@
 ---
-// Este es el archivo: src/pages/es/index.astro
+// src/pages/es/index.astro
 import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/common/Navbar.astro';
+import Footer from '../../components/common/Footer.astro';
+
 import Hero from '../../components/home/Hero.astro';
+import TrustBar from '../../components/home/TrustBar.astro';
+import Services from '../../components/home/Services.astro';
+import Impact from '../../components/home/Impact.astro';
+import About from '../../components/home/About.astro';
+import Testimonials from '../../components/home/Testimonials.astro';
+import Gallery from '../../components/home/Gallery.astro';
+import CTA from '../../components/home/CTA.astro';
 ---
-<Layout title="CCJG | Claridad Absoluta">
-  <Hero /> </Layout>
+
+<Layout title="CCJG Servicios de Limpieza | Estándar Comercial">
+  <Navbar />
+  
+  <main>
+    <Hero />
+    <TrustBar />
+    <Services />
+    <Gallery />
+    <About />
+    <Testimonials />
+    <Impact />
+    <CTA />
+  </main>
+
+  <Footer />
+</Layout>
