@@ -18,7 +18,7 @@ const t = useTranslations(lang);
     </div>
 
     <div id="clean-layer" class="absolute inset-0 z-[5] overflow-hidden pointer-events-none border-r border-white/40 shadow-[2px_0_10px_rgba(0,0,0,0.5)]" style="width: 50%;">
-      <div class="absolute inset-0 w-screen h-screen">
+      <div class="absolute inset-0 clean-image-wrapper">
         <picture>
           <source media="(max-width: 768px)" srcset="/images/hero-mobile-clean.jpg">
           <img src="/images/hero-desktop-clean.jpg" alt="Después" class="w-full h-full object-cover brightness-[1.05] contrast-[1.05]">
@@ -72,12 +72,15 @@ const t = useTranslations(lang);
   </button>
 </section>
 
-<script>
-  // Script estándar, seguro y protegido de errores de carga
+<script is:inline>
   const initHeroSlider = () => {
-    // 1. Destruir cualquier bloqueo de scroll (Seguridad máxima)
+    // 1. ANIQUILACIÓN TOTAL DE BLOQUEOS DE SCROLL (Nivel Dios)
+    // Limpiamos estilos en línea
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
+    // Y EXTIRPAMOS cualquier clase de Tailwind residual que un Modal haya dejado atorada
+    document.documentElement.classList.remove('overflow-hidden', 'fixed', 'h-screen');
+    document.body.classList.remove('overflow-hidden', 'fixed', 'h-screen');
 
     const sliderContainer = document.getElementById('slider-container');
     const cleanLayer = document.getElementById('clean-layer');
@@ -85,35 +88,39 @@ const t = useTranslations(lang);
     const heroContent = document.getElementById('hero-content');
     const toggleBtn = document.getElementById('toggle-contemplative');
 
-    // Si falta algo en la página, detenemos el script en silencio sin crashear el resto de la web
     if (!sliderContainer || !cleanLayer || !handleContainer) return;
 
-    let isDragging = false;
+    // 2. PROTECCIÓN CONTRA FUGAS DE MEMORIA (Memory Leaks en Desktop)
+    // Evita que Astro duplique los eventos si el usuario entra y sale de la página
+    if (!window.heroSliderActive) {
+      let isDragging = false;
 
-    const moveSlider = (clientX) => {
-      const rect = sliderContainer.getBoundingClientRect();
-      let position = ((clientX - rect.left) / rect.width) * 100;
-      position = Math.max(0, Math.min(100, position));
-      cleanLayer.style.width = `${position}%`;
-      handleContainer.style.left = `${position}%`;
-    };
+      const moveSlider = (clientX) => {
+        const rect = sliderContainer.getBoundingClientRect();
+        let position = ((clientX - rect.left) / rect.width) * 100;
+        position = Math.max(0, Math.min(100, position));
+        cleanLayer.style.width = `${position}%`;
+        handleContainer.style.left = `${position}%`;
+      };
 
-    handleContainer.addEventListener('mousedown', () => { isDragging = true; });
-    handleContainer.addEventListener('touchstart', () => { isDragging = true; }, { passive: true });
+      handleContainer.addEventListener('mousedown', () => { isDragging = true; });
+      handleContainer.addEventListener('touchstart', () => { isDragging = true; }, { passive: true });
 
-    window.addEventListener('mousemove', (e) => {
-      if (isDragging) moveSlider(e.clientX);
-    });
+      window.addEventListener('mousemove', (e) => {
+        if (isDragging) moveSlider(e.clientX);
+      });
+      window.addEventListener('touchmove', (e) => {
+        if (isDragging) moveSlider(e.touches[0].clientX);
+      }, { passive: true });
 
-    window.addEventListener('touchmove', (e) => {
-      if (isDragging) moveSlider(e.touches[0].clientX);
-    }, { passive: true });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+      window.addEventListener('touchend', () => { isDragging = false; });
+      
+      window.heroSliderActive = true;
+    }
 
-    window.addEventListener('mouseup', () => { isDragging = false; });
-    window.addEventListener('touchend', () => { isDragging = false; });
-
-    if (toggleBtn) {
-      // Extraemos los textos de los atributos de forma segura
+    // 3. Botón contemplativo (Con candado de seguridad)
+    if (toggleBtn && !toggleBtn.hasAttribute('data-wired')) {
       const contemplativeText = toggleBtn.getAttribute('data-text-contemplative');
       const exitText = toggleBtn.getAttribute('data-text-exit');
       let contemplativeMode = false;
@@ -124,23 +131,29 @@ const t = useTranslations(lang);
           if(heroContent) heroContent.style.opacity = '0';
           toggleBtn.innerText = exitText;
           handleContainer.style.opacity = '0';
+          handleContainer.style.pointerEvents = 'none'; // Desactiva el slider para que no interfiera
         } else {
           if(heroContent) heroContent.style.opacity = '1';
           toggleBtn.innerText = contemplativeText;
           handleContainer.style.opacity = '1';
+          handleContainer.style.pointerEvents = 'auto';
         }
       });
+      toggleBtn.setAttribute('data-wired', 'true');
     }
   };
 
-  // Se ejecuta solo cuando el HTML está 100% construido
+  // Doble gancho de ejecución segura
   document.addEventListener('DOMContentLoaded', initHeroSlider);
-  // Soporte vital si estás usando View Transitions en Astro
   document.addEventListener('astro:page-load', initHeroSlider);
 </script>
 
 <style>
-  #clean-layer div { width: 100vw; }
+  /* Fix Maestro: En vez de 100vh que choca, le decimos que siga al contenedor exacto */
+  .clean-image-wrapper { 
+    width: 100vw; 
+    height: 100%; 
+  }
   .crisp-shadow { text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8), 0px 4px 10px rgba(0, 0, 0, 0.6); }
   .crisp-shadow-sm { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.9), 0px 2px 5px rgba(0, 0, 0, 0.5); }
   .text-outline { text-shadow: -1px -1px 0 rgba(0,0,0,0.8), 1px -1px 0 rgba(0,0,0,0.8), -1px 1px 0 rgba(0,0,0,0.8), 1px 1px 0 rgba(0,0,0,0.8); }
